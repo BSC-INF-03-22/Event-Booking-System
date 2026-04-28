@@ -17,7 +17,10 @@ import { NotificationsModule } from './notifications/notifications.module';
         username: config.get<string>('DB_USER'),
         password: config.get<string>('DB_PASSWORD'),
         connectString: config.get<string>('DB_CONNECT_STRING'),
+
+        // ✔ SAFE FIX
         autoLoadEntities: true,
+
         synchronize: true,
         logging: true,
       }),
