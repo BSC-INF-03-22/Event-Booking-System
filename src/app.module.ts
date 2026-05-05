@@ -4,6 +4,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { FeedbackModule } from './feedback/feedback.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { AdminModule } from './admin/admin.module';
+import { AuthModule } from './auth/auth.module';
+import { TicketsModule } from './tickets/tickets.module';
+import { EventsModule } from './events/events.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -18,9 +23,7 @@ import { NotificationsModule } from './notifications/notifications.module';
         password: config.get<string>('DB_PASSWORD'),
         connectString: config.get<string>('DB_CONNECT_STRING'),
 
-        // ✔ SAFE FIX
         autoLoadEntities: true,
-
         synchronize: true,
         logging: true,
       }),
@@ -28,6 +31,11 @@ import { NotificationsModule } from './notifications/notifications.module';
 
     FeedbackModule,
     NotificationsModule,
+    AdminModule,
+    AuthModule,
+    TicketsModule,
+    EventsModule,
+    PaymentsModule,
   ],
 })
 export class AppModule {}
