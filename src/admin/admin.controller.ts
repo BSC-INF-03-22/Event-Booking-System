@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Body,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
@@ -7,28 +16,36 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
+  // CREATE
   @Post()
   create(@Body() dto: CreateAdminDto) {
     return this.adminService.create(dto);
   }
 
+  // READ ALL
   @Get()
   findAll() {
     return this.adminService.findAll();
   }
 
+  // READ ONE (FIXED)
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.adminService.findOne(id);
   }
 
+  // UPDATE (FIXED)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() dto: UpdateAdminDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateAdminDto,
+  ) {
     return this.adminService.update(id, dto);
   }
 
+  // DELETE (FIXED)
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.adminService.remove(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -14,30 +14,57 @@ export class FeedbackService {
     private notificationsService: NotificationsService,
   ) {}
 
- async create(dto: CreateFeedbackDto) {
-  const feedback = this.feedbackRepository.create(dto);
-  const saved = await this.feedbackRepository.save(feedback);
+  // ✅ CREATE
+  async create(dto: CreateFeedbackDto) {
+    const feedback = this.feedbackRepository.create({
+      ...dto,
+      createdAt: new Date(), // ensure timestamp
+    });
 
-  // 🔔 CREATE NOTIFICATION AFTER FEEDBACK
-  await this.notificationsService.create({
-    userId: saved.userId,
-    message: `New feedback received with rating ${saved.rating}`,
-  });
+    const saved = await this.feedbackRepository.save(feedback);
 
-  return saved;
-}
+    // 🔔 CREATE NOTIFICATION AFTER FEEDBACK
+    await this.notificationsService.create({
+      userId: saved.userId,
+      message: `New feedback received with rating ${saved.rating}`,
+    });
 
+    return saved;
+  }
+
+  // ✅ GET ALL
   async findAll() {
-    return await this.feedbackRepository.find();
+    return this.feedbackRepository.find();
   }
 
-  // ✅ UPDATE (PATCH)
+  // ✅ GET ONE
+  async findOne(id: number) {
+    const feedback = await this.feedbackRepository.findOne({
+      where: { id },
+    });
+
+    if (!feedback) {
+      throw new NotFoundException(`Feedback with ID ${id} not found`);
+    }
+
+    return feedback;
+  }
+
+  // ✅ UPDATE
   async update(id: number, data: Partial<CreateFeedbackDto>) {
-    await this.feedbackRepository.update(id, data);
-    return this.feedbackRepository.findOneBy({ id });
+    const feedback = await this.findOne(id);
+
+    Object.assign(feedback, data);
+
+    return this.feedbackRepository.save(feedback);
   }
 
+  // ✅ DELETE
   async remove(id: number) {
-    return this.feedbackRepository.delete(id);
+    const feedback = await this.findOne(id);
+
+    await this.feedbackRepository.remove(feedback);
+
+    return { message: 'Feedback deleted successfully' };
   }
 }

@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 
@@ -28,27 +29,30 @@ export class NotificationsController {
     return this.notificationsService.findAll();
   }
 
-  // 🔹 ADD THIS → READ ONE
+  // READ ONE (FIXED + SAFE)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notificationsService.findOne(Number(id));
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.notificationsService.findOne(id);
   }
 
-  // 🔹 ADD THIS → UPDATE
+  // UPDATE
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: any) {
-    return this.notificationsService.update(Number(id), body);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: any,
+  ) {
+    return this.notificationsService.update(id, body);
   }
 
-  // 🔹 ADD THIS → MARK AS READ (nice feature)
+  // MARK AS READ
   @Patch(':id/read')
-  markAsRead(@Param('id') id: string) {
-    return this.notificationsService.markAsRead(Number(id));
+  markAsRead(@Param('id', ParseIntPipe) id: number) {
+    return this.notificationsService.markAsRead(id);
   }
 
-  // 🔹 ADD THIS → DELETE
+  // DELETE
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notificationsService.remove(Number(id));
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.notificationsService.remove(id);
   }
 }

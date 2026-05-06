@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  PrimaryColumn,
+  BeforeInsert,
+} from 'typeorm';
 
 @Entity('notifications')
 export class Notification {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn({ type: 'number' })
   id!: number;
 
   @Column()
@@ -16,4 +22,9 @@ export class Notification {
 
   @CreateDateColumn()
   createdAt!: Date;
+
+  @BeforeInsert()
+  setId() {
+    this.id = Date.now();
+  }
 }
