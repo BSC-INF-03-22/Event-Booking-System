@@ -1,6 +1,7 @@
 import { IsNumber, IsString, IsOptional } from 'class-validator';
 
 export class CreatePaymentDto {
+
   @IsNumber()
   userId!: number;
 
@@ -14,3 +15,4 @@ export class CreatePaymentDto {
   @IsString()
   currency!: string;
 }
+

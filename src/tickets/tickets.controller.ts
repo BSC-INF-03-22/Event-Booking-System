@@ -27,9 +27,12 @@ export class TicketsController {
 
   // UPDATE
   @Patch(':id')
-  update(@Param('id') id: number, @Body() dto: UpdateTicketDto) {
-    return this.ticketsService.update(+id, dto);
-  }
+update(
+  @Param('id') id: number,
+  @Body() updateTicketDto: UpdateTicketDto,
+) {
+  return this.ticketsService.update(id, updateTicketDto);
+}
 
   // DELETE
   @Delete(':id')

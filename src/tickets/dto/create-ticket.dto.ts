@@ -1,7 +1,18 @@
+import { IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+
 export class CreateTicketDto {
+
+  @IsString()
+  title!: string;
+
+  @IsString()
+  description!: string;
+
+  @IsString()
+  status!: string;
+
+  @Type(() => Number)
+  @IsNumber()
   userId!: number;
-  eventName!: string;
-  quantity!: number;
-  price!: number;
-  status?: string; // optional (e.g. "pending", "paid")
 }

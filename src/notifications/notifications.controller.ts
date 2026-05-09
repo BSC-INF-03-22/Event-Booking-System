@@ -15,7 +15,7 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   // CREATE
-  @Post()
+  @Post(':id')
   create(@Body() body: { userId: number; message: string }) {
     return this.notificationsService.create({
       userId: body.userId,

@@ -8,9 +8,9 @@ export class FeedbackController {
 
   // ✅ CREATE
   @Post()
-  create(@Body() dto: CreateFeedbackDto) {
-    return this.feedbackService.create(dto);
-  }
+create(@Body() createFeedbackDto: CreateFeedbackDto) {
+   return this.feedbackService.create(createFeedbackDto);
+}
 
   // ✅ GET ALL
   @Get()

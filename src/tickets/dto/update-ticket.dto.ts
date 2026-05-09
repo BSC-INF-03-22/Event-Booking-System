@@ -1,6 +1,6 @@
-export class UpdateTicketDto {
-  eventName?: string;
-  quantity?: number;
-  price?: number;
-  status?: string;
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateTicketDto } from './create-ticket.dto';
+
+export class UpdateTicketDto extends PartialType(CreateTicketDto) {
+   
 }
