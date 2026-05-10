@@ -42,6 +42,14 @@ lerna-debug.log*
 .env.production.local
 .env.local
 
+# Ignore other modules not part of your task
+src/admin/
+src/auth/
+src/events/
+src/feedback/
+src/notifications/
+src/tickets/
+
 # temp directory
 .temp
 .tmp
