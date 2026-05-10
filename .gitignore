@@ -61,3 +61,5 @@ src/tickets
 src/feedback
 src/events
 src/payments
+src/admin
+src/notifications
