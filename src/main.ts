@@ -1,0 +1,19 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,            // removes extra fields not in DTO
+      forbidNonWhitelisted: true, // throws error if extra fields are sent
+      transform: true,            // auto-transforms payloads to DTO types
+    }),
+  );
+
+  await app.listen(3000);
+}
+
+bootstrap();
